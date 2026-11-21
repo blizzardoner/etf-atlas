@@ -1,0 +1,29 @@
+name: Keep daily ETF update schedules active
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 0 1 * *'
+permissions:
+  contents: read
+concurrency:
+  group: etf-atlas-keepalive
+  cancel-in-progress: false
+jobs:
+  heartbeat:
+    if: github.repository == 'blizzardoner/etf-atlas' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: '3.11'
+      - name: Verify heartbeat isolation and safety
+        run: python -m unittest discover -s maintenance -p 'test_*.py'
+      - name: Refresh only the isolated maintenance branch
+        run: python maintenance/heartbeat.py

@@ -1,9 +1,13 @@
 node_modules/
+.venv/
 dist/
 public/data/
 .cache/
 artifacts/
 __pycache__/
 *.pyc
+.hermes-tmp.*
+*.tsbuildinfo
+artifacts-inspection.json
 .env
 .env.*
