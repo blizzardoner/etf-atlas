@@ -1,0 +1,6 @@
+requests>=2.32,<3
+beautifulsoup4>=4.12,<5
+tzdata>=2026.6,<2027
+exchange-calendars>=4.13.3,<5
+# Keep the calendar dependency on its warning-free supported pandas API.
+pandas>=2.2,<3
